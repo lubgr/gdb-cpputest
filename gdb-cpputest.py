@@ -84,7 +84,8 @@ class TestSelector(object):
         fullQuery += '_Test::testBody'
 
         self.storeCaseSensitivity()
-        self.setCaseInsensitive()
+        if not any(c.isupper() for c in self.queryStr):
+            self.setCaseInsensitive()
 
         result = gdb.execute('info functions ' + fullQuery, False, True)
 
