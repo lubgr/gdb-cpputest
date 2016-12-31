@@ -38,9 +38,13 @@ for the `cppu` invocation. The following (sub-)commands are available:
 * `cppu clear` deletes all breakpoints at unit test functions
 * `cppu [pattern]` an alias for `cppu break [pattern]`
 
-The pattern will be used for a *case-insensitive* search. It can be enriched by ^ and $ to indicate
-begin of the test group name and end of the test name itself. This circumvents situations in which
-the name of a test case (or group) is contained in another.
+The pattern will be used for a *case-insensitive* search if it is lowercase, as soon as one capital
+character is present, a *case-sensitive* search is performed . It can be enriched by ^ and $ to
+indicate begin of the test group name and end of the test name itself. This circumvents situations
+in which the name of a test case (or group) is contained in another. Finally, in addition to the
+above commands, there is one boolean parameter:
+
+* `set cppu-color [on|off]` controls whether colorized lists of tests are printed out
 
 Explanation
 -----------
