@@ -119,8 +119,6 @@ class TestSelector(object):
 
 
 class Color(object):
-    colorizeOutput = True
-
     def white(self):
         return self.get('\033[0m')
 
@@ -131,7 +129,7 @@ class Color(object):
         return self.get('\033[33m')
 
     def get(self, colorStr):
-        if self.colorizeOutput:
+        if gdb.parameter('cppu-color'):
             return colorStr
         else:
             return ''
@@ -274,7 +272,26 @@ class CppUTestClear(gdb.Command):
                 gdb.execute('delete breakpoint %s' % match.group(1))
                 print('deleted breakpoint %s' % match.group(2))
 
+class ColorParameter(gdb.Parameter):
+    """Colorize lists of unit tests and groups when they are printed out"""
+
+    show_doc = set_doc = ""
+
+    def __init__(self):
+        gdb.Parameter.__init__(self, "cppu-color", gdb.COMMAND_NONE, gdb.PARAM_BOOLEAN)
+
+        self.value = True
+
+    def get_set_string(self):
+        ret = 'on' if self.value else 'off'
+
+        return 'Colorized output of cppu test lists is ' + ret
+
+    def get_show_string(self, svalue):
+        return self.get_set_string()
+
 CppUTest()
 CppUTestSelect()
 CppUTestBreak()
 CppUTestClear()
+ColorParameter()
